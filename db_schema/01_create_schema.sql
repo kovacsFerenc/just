@@ -8,61 +8,61 @@ DROP TABLE IF EXISTS shows;
 
 
 CREATE TABLE shows (
-    id character(50) PRIMARY KEY NOT NULL,
-    title character(100) NOT NULL,
+    id character varying(50) PRIMARY KEY NOT NULL,
+    title character varying(100) NOT NULL,
     year date NOT NULL,
-    overview character(2000),
+    overview character varying(2000),
     runtime smallint,
-    trailer character(200),
-    homepage character(200),
+    trailer character varying(200),
+    homepage character varying(200),
     rating numeric
 );
 
 
 CREATE TABLE genres (
     id SERIAL PRIMARY KEY NOT NULL,
-    name character(30) NOT NULL
+    name character varying(30) NOT NULL
 );
 
 
 CREATE TABLE actors (
     id SERIAL PRIMARY KEY NOT NULL,
-    name character(100) NOT NULL,
+    name character varying(100) NOT NULL,
     birthday date NOT NULL,
     death date,
-    biography character(1000)
+    biography character varying(1000)
 );
 
 
 CREATE TABLE seasons (
     id SERIAL PRIMARY KEY NOT NULL,
     season_number smallint NOT NULL,
-    title character(100),
-    overview character(2000),
-    show_id character(50) NOT NULL
+    title character varying(100),
+    overview character varying(2000),
+    show_id character varying(50) NOT NULL
 );
 
 
 CREATE TABLE show_genres (
     id SERIAL PRIMARY KEY NOT NULL,
-    show_id character(50) NOT NULL,
+    show_id character varying(50) NOT NULL,
     genre_id integer NOT NULL
 );
 
 
 CREATE TABLE show_characters (
     id SERIAL PRIMARY KEY NOT NULL,
-    show_id character(50) NOT NULL,
+    show_id character varying(50) NOT NULL,
     actor_id integer NOT NULL,
-    character_name character(100) NOT NULL
+    character_name character varying(100) NOT NULL
 );
 
 
 CREATE TABLE episodes (
     id SERIAL PRIMARY KEY NOT NULL,
-    title character(100) NOT NULL,
+    title character varying(100) NOT NULL,
     episode_number smallint NOT NULL,
-    overview character(1000),
+    overview character varying(1000),
     season_id integer NOT NULL
 );
 
