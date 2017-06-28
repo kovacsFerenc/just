@@ -3,6 +3,13 @@ import psycopg2
 
 
 def establish_connection(connection_data=None):
+    """
+    Create a database connection based on the :connection_data: parameter
+
+    :connection_data: Connection string attributes
+
+    :returns: psycopg2.connection
+    """
     if connection_data is None:
         connection_data = get_connection_data()
     try:
@@ -20,6 +27,12 @@ def establish_connection(connection_data=None):
 
 
 def get_connection_data(db_name=None):
+    """
+    Give back a properly formatted dictionary based on the environment variables values which are started
+    with :MY__PSQL_: prefix
+
+    :db_name: optional parameter. By default it uses the environment variable value.
+    """
     if db_name is None:
         db_name = os.environ.get('MY_PSQL_DBNAME')
 
@@ -29,3 +42,33 @@ def get_connection_data(db_name=None):
         'host': os.environ.get('MY_PSQL_HOST'),
         'password': os.environ.get('MY_PSQL_PASSWORD')
     }
+
+
+def execute_select(statement, variables=None):
+    """
+    Execute SELECT statement optionally parameterized
+
+    Example:
+    > execute_select('SELECT %(title)s;', variables={'title': 'Codecool'})
+
+    :statment: SELECT statement
+
+    :variables:  optional parameter dict"""
+    result_set = []
+    with establish_connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(statement, variables)
+            result_set = cursor.fetchall()
+    return result_set
+
+
+def execute_dml_statement(statement, variables=None):
+    """
+    Execute data manipulation query statement (optionally parameterized)
+
+    :statment: SQL statement
+
+    :variables:  optional parameter dict"""
+    with establish_connection() as conn:
+        with conn.cursor() as cursor:
+            result = cursor.execute(statement, variables)
