@@ -9,9 +9,13 @@ A dumb wireframe is provided in the `design.html` file with will help you mix'n'
 ## Setup
 
 1. Clone this repo
-1. Fill out the `setenv.sh.template` with your details and rename it to `setenv.sh`
-1. Source the `setenv.sh` file in the command line with **one** of the following commands:
+2. Fill out the `setenv.sh.template` with your details and rename it to `setenv.sh`
+3. Source the `setenv.sh` file in the command line with **one** of the following commands:
     - *`source setenv.sh`*
     - *`. setenv.sh`*
-1. Run the server with: *`python3 main.py`*
-1. After you stop the server run: *`deactivate`* in the command line to clean up the variables used
+4. Run the server with: *`python3 main.py`*
+5. After you stop the server run: *`deactivate`* in the command line to clean up the variables used
+
+## Database
+
+![Relational model](db_schema/relational_model.png?raw=true "Relational model")
