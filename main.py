@@ -10,6 +10,11 @@ def index():
     return render_template('index.html', shows=result)
 
 
+@app.route('/design')
+def design():
+    return render_template('design.html')
+
+
 def main():
     app.run()
 
