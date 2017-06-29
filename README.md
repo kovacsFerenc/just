@@ -11,7 +11,7 @@ A dumb wireframe is provided in the `design.html` file with will help you mix'n'
 1. Clone this repo
 2. Open a terminal in the root folder of the cloned repository. After that run this command:
     ```
-    pip install -r requirements.txt
+    sudo pip3 install -r requirements.txt
     ```
 3. Run the `data_inserter.py` file:
     ```
