@@ -1,10 +1,16 @@
-import data_manager
-import init_db
+from flask import Flask
+
+app = Flask('codecool_series')
+
+
+@app.route('/')
+def index():
+    return "Welcome TV show lover"
 
 
 def main():
-    init_db.init_db()
-    init_db.create_schema()
+    app.run()
+
 
 if __name__ == '__main__':
     main()
