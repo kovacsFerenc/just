@@ -159,5 +159,7 @@ fabric.properties
 ### VisualStudioCode ###
 .vscode/*
 
+
+### Environment variable script ###
 setenv.sh
 setenv.ps1
