@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, render_template, url_for
 
 app = Flask('codecool_series')
 
 
 @app.route('/')
 def index():
-    return "Welcome TV show lover"
+    return render_template('design.html')
 
 
 def main():
