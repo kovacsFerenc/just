@@ -69,6 +69,12 @@ def execute_dml_statement(statement, variables=None):
     :statment: SQL statement
 
     :variables:  optional parameter dict"""
+    result = None
     with establish_connection() as conn:
         with conn.cursor() as cursor:
-            result = cursor.execute(statement, variables)
+            cursor.execute(statement, variables)
+            try:
+                result = cursor.fetchone()
+            except psycopg2.ProgrammingError as pe:
+                pass
+    return result
