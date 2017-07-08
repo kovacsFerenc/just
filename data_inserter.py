@@ -177,10 +177,10 @@ def insert_actor(cast_obj):
     return actor_id
 
 
-def insert_character(**kwargs):
+def insert_show_character(show_character):
     statement = """INSERT INTO show_characters (show_id, actor_id, character_name)
                                         VALUES (%(show_id)s, %(actor_id)s, %(character_name)s)"""
-    execute_dml_statement(statement, kwargs)
+    execute_dml_statement(statement, show_character)
 
 
 def insert_characters(show_ids):
@@ -192,7 +192,12 @@ def insert_characters(show_ids):
 
         for cast_obj in cast:
             actor_id = insert_actor(cast_obj)
-            insert_character(character_name=cast_obj['character'], actor_id=actor_id, show_id=show_id)
+            show_character = {
+                'character_name': cast_obj['character'],
+                'actor_id': actor_id,
+                'show_id': show_id
+            }
+            insert_show_character(show_character)
 
 
 def main():

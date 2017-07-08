@@ -45,6 +45,15 @@ def get_connection_data(db_name=None):
 
 
 def execute_script_file(file_path):
+    """
+    Execute script file based on the given file path.
+    Print the result of the execution to console.
+
+    Example:
+    > execute_script_file('db_schema/01_create_schema.sql')
+
+    :file_path: Relative path of the file to be executed.
+    """
     with open(file_path) as script_file:
         with establish_connection() as conn, \
                 conn.cursor() as cursor:
