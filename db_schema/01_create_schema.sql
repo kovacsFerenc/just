@@ -28,7 +28,7 @@ CREATE TABLE genres (
 CREATE TABLE actors (
     id SERIAL PRIMARY KEY NOT NULL,
     name character varying(100) NOT NULL,
-    birthday date NOT NULL,
+    birthday date,
     death date,
     biography character varying(1000)
 );

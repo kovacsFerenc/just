@@ -21,13 +21,18 @@ def init_db():
 
 def create_schema():
     creation_script_file = 'db_schema/01_create_schema.sql'
-    with open(creation_script_file) as schema_script:
-        with establish_connection() as conn, \
-                conn.cursor() as cursor:
-            try:
-                sql_to_run = schema_script.read()
-                cursor.execute(sql_to_run)
-                print("Database schema created.")
-            except Exception as ex:
-                print("Schema creation failed")
-                print(ex.args)
+    execute_script_file(creation_script_file)
+
+
+def insert_data():
+    insert_data_script = 'db_schema/02_insert_data.sql'
+    execute_script_file(insert_data_script)
+
+
+def main():
+    init_db()
+    create_schema()
+    insert_data()
+
+if __name__ == '__main__':
+    main()
