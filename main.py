@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for
-import data_manager
+from data import data_manager
 
 app = Flask('codecool_series')
 

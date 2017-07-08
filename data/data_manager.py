@@ -44,6 +44,30 @@ def get_connection_data(db_name=None):
     }
 
 
+def execute_script_file(file_path):
+    """
+    Execute script file based on the given file path.
+    Print the result of the execution to console.
+
+    Example:
+    > execute_script_file('db_schema/01_create_schema.sql')
+
+    :file_path: Relative path of the file to be executed.
+    """
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    full_path = os.path.join(package_directory, file_path)
+    with open(full_path) as script_file:
+        with establish_connection() as conn, \
+                conn.cursor() as cursor:
+            try:
+                sql_to_run = script_file.read()
+                cursor.execute(sql_to_run)
+                print("{} script executed successsfully.".format(file_path))
+            except Exception as ex:
+                print("Execution of {} failed".format(file_path))
+                print(ex.args)
+
+
 def execute_select(statement, variables=None):
     """
     Execute SELECT statement optionally parameterized
@@ -69,6 +93,12 @@ def execute_dml_statement(statement, variables=None):
     :statment: SQL statement
 
     :variables:  optional parameter dict"""
+    result = None
     with establish_connection() as conn:
         with conn.cursor() as cursor:
-            result = cursor.execute(statement, variables)
+            cursor.execute(statement, variables)
+            try:
+                result = cursor.fetchone()
+            except psycopg2.ProgrammingError as pe:
+                pass
+    return result
