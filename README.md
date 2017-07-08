@@ -26,4 +26,4 @@ A dumb wireframe is provided in the `design.html` file with will help you mix'n'
 
 ## Database
 
-![Relational model](db_schema/relational_model.png?raw=true "Relational model")
+![Relational model](data/db_schema/relational_model.png?raw=true "Relational model")
