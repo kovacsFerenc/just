@@ -44,6 +44,19 @@ def get_connection_data(db_name=None):
     }
 
 
+def execute_script_file(file_path):
+    with open(file_path) as script_file:
+        with establish_connection() as conn, \
+                conn.cursor() as cursor:
+            try:
+                sql_to_run = script_file.read()
+                cursor.execute(sql_to_run)
+                print("{} script executed successsfully.".format(file_path))
+            except Exception as ex:
+                print("Execution of {} failed".format(file_path))
+                print(ex.args)
+
+
 def execute_select(statement, variables=None):
     """
     Execute SELECT statement optionally parameterized
