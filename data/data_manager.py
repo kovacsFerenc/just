@@ -54,7 +54,9 @@ def execute_script_file(file_path):
 
     :file_path: Relative path of the file to be executed.
     """
-    with open(file_path) as script_file:
+    package_directory = os.path.dirname(os.path.abspath(__file__))
+    full_path = os.path.join(package_directory, file_path)
+    with open(full_path) as script_file:
         with establish_connection() as conn, \
                 conn.cursor() as cursor:
             try:
