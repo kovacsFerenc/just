@@ -4,13 +4,13 @@ from init_db import *
 import datetime
 import os
 
+
+trakt_api_url = 'https://api.trakt.tv'
 headers = {
     'Content-Type': 'application/json',
     'trakt-api-version': '2',
     'trakt-api-key': os.environ.get('TRAKT_API_KEY')
 }
-
-trakt_api_url = 'https://api.trakt.tv'
 
 
 def get_show_entity(show):
@@ -154,6 +154,47 @@ def insert_genres():
         execute_dml_statement(statement, {'name': genre['name']})
 
 
+def get_actor_from_cast_obj(cast_obj):
+    biography = cast_obj['person']['biography']
+    if biography is not None:
+        biography = biography[:1000]
+
+    actor = {
+        'name': cast_obj['person']['name'],
+        'birthday': cast_obj['person']['birthday'],
+        'death': cast_obj['person']['death'],
+        'biography': biography
+    }
+
+    return actor
+
+
+def insert_actor(cast_obj):
+    actor = get_actor_from_cast_obj(cast_obj)
+    statement = """INSERT INTO actors (name, birthday, death, biography)
+                                VALUES (%(name)s, %(birthday)s, %(death)s, %(biography)s) RETURNING id;"""
+    actor_id = execute_dml_statement(statement, actor)[0]
+    return actor_id
+
+
+def insert_character(**kwargs):
+    statement = """INSERT INTO show_characters (show_id, actor_id, character_name)
+                                        VALUES (%(show_id)s, %(actor_id)s, %(character_name)s)"""
+    execute_dml_statement(statement, kwargs)
+
+
+def insert_characters(show_ids):
+    url = trakt_api_url + '/shows/{show_id}/people?extended=full'
+
+    for show_id in show_ids:
+        cast_request = requests.get(url.format(show_id=show_id), headers=headers)
+        cast = cast_request.json()['cast']
+
+        for cast_obj in cast:
+            actor_id = insert_actor(cast_obj)
+            insert_character(character_name=cast_obj['character'], actor_id=actor_id, show_id=show_id)
+
+
 def main():
     init_db()
     create_schema()
@@ -163,6 +204,9 @@ def main():
     print("show data inserted")
     show_seasons = insert_seasons(inserted_show_ids)
     print('season data inserted')
+    insert_characters(inserted_show_ids)
+    print('characters inserted')
+
 
 if __name__ == '__main__':
     main()
